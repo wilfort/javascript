@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta charset="UTF-8">
+    </head>
+    <body>
+      <form name="form1">
+            <label for="nbEnfants">nombre d'enfants : </label><input type="text" name="nbEnfants" id="nbEnfants"/><br>
+            <label for="NomF">nom d'une femme : </label><input type="text" name="NomF" id="NomF"/><br>
+            <label for="Pays">un pays : </label><input type="text" name="Pays" id="Pays"/><br>
+            <label for="Metier">métier : </label><input type="text" name="Metier" id="Metier"/><br>
+            <button  name="valider" id="valider" onclick="Main()">Valider</button>
+        </form>
+      <script type="text/javascript" language="javascript">
+          function  Main()
+            {
+              var met=document.getElementById("Metier").value;
+              var pay = document.getElementById("Pays").value;
+              var nf=document.getElementById("NomF").value;
+              var ne=document.getElementById("nbEnfants").value;
+              alert("Vous serez "+met+" et habiterez à "+pay+", et marié a "+nf+" avec "+ne+" enfants.");
+              console.log("Vous serez "+met+" et habiterez à "+pay+", et marié a "+nf+" avec "+ne+" enfants.");
+
+            }
+
+
+
+
+      </script>
+    </body>
+</html>

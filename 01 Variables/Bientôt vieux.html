@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta charset="UTF-8">
+    </head>
+    <body>
+      <form name="form1">
+            <label for="age">Votre âge : </label><input type="text" name="nbEnfants" id="age"/><br>
+            <label for="ageM">Un âge maximum, esperons tous vivre 100ans : </label><input type="text" name="ageM" id="ageM"/><br>
+            <label for="nAli">Une denrée alimentaire : </label><input type="text" name="nAli" id="nAli"/><br>
+            <label for="CAli">Votre consomation de cette denrée par jour : </label><input type="text" name="CAli" id="CAli"/><br>
+            <button  name="valider" id="valider" onclick="Main()">Valider</button>
+        </form>
+      <script type="text/javascript" language="javascript">
+          function  Main()
+            {
+              var age=document.getElementById("age").value;
+              var ageM = document.getElementById("ageM").value;
+              var nAli=document.getElementById("nAli").value;
+              var CAli=document.getElementById("CAli").value;
+              if (ageM>100){ageM=100;}
+              var totalAl = foisNour(age,ageM,CAli);
+
+              alert("Il vous reste "+totalAl+" de "+nAli+" avant d'ateindre l'age de "+ageM+" ans ");
+              console.log("Il vous reste "+totalAl+" de "+nAli+" avant d'ateindre l'age de "+ageM+" ans ");
+            }
+            function foisNour(a, b, c)
+            {
+              var an=b-a;
+              var anB=Math.floor(an/4);
+              var annB=an-anB;
+              var valeur= ((anB*366)+(annB*365))*c;
+              return valeur;
+            }
+
+
+
+      </script>
+    </body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta charset="UTF-8">
+    </head>
+    <body>
+      <form name="form1">
+            <label>L'année courante : </label><input type="text" name="annC" id="annC"/><br>
+            <label>L'année de naissance d'une personne : </label><input type="text" name="annN" id="annN"/><br>
+            <button  name="valider" id="valider" onclick="Main()">Valider</button>
+        </form>
+      <script type="text/javascript" language="javascript">
+          function  Main()
+            {
+              var annC=document.getElementById("annC").value;
+              var annN = document.getElementById("annN").value;
+              var age = annC-annN;
+              alert("Vous est agée de "+age);
+              console.log("Vous est agée de "+age);
+
+            }
+
+
+
+
+      </script>
+    </body>
+</html>
