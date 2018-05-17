@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+      <form name="form1">
+        <br>
+            <button  name="valider" id="valider" onclick="affiche()">affiche</button><br><br>
+        </form>
+      <script type="text/javascript" language="javascript">
+      var tab = [-2,1,4];
+          function soustrait (x)
+          {
+            var cal =x-2;
+            if (cal>=0){
+              return cal;
+            }else{
+              return "Nombre négatif!";
+            }
+          }
+          function affiche()
+          {
+            alert("La soustrait sur "+tab[tab.length-tab.length]+" est : "+soustrait(tab[tab.length-tab.length]));
+            alert("La soustrait sur "+tab[tab.length-1]+" est : "+soustrait(tab[tab.length-1]));
+          }
+      </script>
+    </body>
+</html>

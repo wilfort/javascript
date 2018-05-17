@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+      <form name="form1">
+        <br>
+            <button  name="valider" id="valider" onclick="testWhile()">test</button><br><br>
+        </form>
+      <script type="text/javascript" language="javascript">
+      var a = 3;
+      var b = 2;
+
+          function testWhile()
+          {
+            var monText=" ";
+            var x=-1;
+            var y=-1;
+            while (
+              (x===-1)&&(y===-1))
+              {
+                monText=prompt("Quelle est votre chaine de caractères contenant la lettre p");
+                x=monText.indexOf("p");
+                y=monText.indexOf("P");
+
+                if (
+                  (x===-1)&&(y===-1)
+                ){
+                  alert('il manque le caractères p');
+                }
+
+              }
+            alert(monText);
+          }
+      </script>
+    </body>
+</html>

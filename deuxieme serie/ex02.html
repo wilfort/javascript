@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+      <form name="form1">
+        <br>
+            <button  name="valider" id="valider" onclick="main()">Surface d'une cercle</button><br><br>
+        </form>
+      <script type="text/javascript" language="javascript">
+          function surfaceCercle()
+          {
+            var rayon =prompt('Quelle est le rayon du cerlcle ?')
+            var cal =Math.PI*Math.pow(rayon,2);
+            return cal;
+          }
+          function main()
+          {
+            var resultat= surfaceCercle();
+            alert("Le surface de votre cercle est : "+resultat);
+          }
+      </script>
+    </body>
+</html>

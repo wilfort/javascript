@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+      <form name="form1">
+        <br>
+            <button  name="valider" id="valider" onclick="faireChoix()">affiche</button><br><br>
+        </form>
+      <script type="text/javascript" language="javascript">
+      var tab = [-2,1,4];
+        function faireChoix(){
+
+          switch(parseInt(prompt("choisir entre 1, 2 ou 3"))) {
+                case 1:
+                    alert("1. Merci");
+                    break;
+                case 2:
+                    alert("2. Bonjour");
+                    break;
+                case 3:
+                    alert("3. Au revoir");
+                    break;
+                default:
+                    alert("Pardon, que voulez-vous ?");
+              }
+          }
+      </script>
+    </body>
+</html>

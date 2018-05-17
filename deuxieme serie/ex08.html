@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+      <form name="form1">
+        <br>
+            <button  name="valider" id="valider" onclick="jourDeLaSemaine()">jour</button><br><br>
+        </form>
+      <script type="text/javascript" language="javascript">
+
+        function jourDeLaSemaine(){
+
+          switch(new Date().getDay()) {
+
+                case 0:
+                    alert("On est dimanche");
+                    break;
+                case 1:
+                    alert("On est lundi");
+                    break;
+                case 2:
+                    alert("On est mardi");
+                    break;
+                case 3:
+                    alert("On est mercredi");
+                    break;
+                case 4:
+                    alert("On est jeudi");
+                    break;
+                case 5:
+                    alert("On est vendredi");
+                    break;
+                case 6:
+                    alert("On est samedi");
+              }
+          }
+      </script>
+    </body>
+</html>

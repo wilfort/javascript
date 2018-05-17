@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+      <form name="form1">
+        <br>
+            <button  name="valider" id="valider" onclick="surfaceRectagle()">Calculer la surface d'un rectangle</button><br><br>
+            <button  name="valider" id="valider" onclick="periRectangle()">Calculer le périmètre d'un rectangle</button>
+        </form>
+
+      <script type="text/javascript" language="javascript">
+          function surfaceRectagle()
+          {
+            var largeur =prompt('Quelle est la largeur du restangle ?')
+            var longueur =prompt('Quelle est la longueur du restangle ?')
+            var cal =largeur*longueur;
+            document.write("la largeur du restangle "+largeur+".<br>");
+            document.write("la longueur du restangle "+longueur+".<br>");
+            document.write("la surface du restangle "+cal+".<br>");
+          }
+
+          function periRectangle(
+          )
+          {
+            var largeur =prompt('Quelle est la largeur du restangle ?')
+            var longueur  =prompt('Quelle est la longueur du restangle ?')
+            var cal =largeur*2+longueur*2;
+            document.write("la largeur du restangle est "+largeur+".<br>");
+            document.write("la longueur du restangle est "+longueur+".<br>");
+            document.write("le périmètre du restangle est "+cal+".<br>");
+          }
+      </script>
+    </body>
+</html>

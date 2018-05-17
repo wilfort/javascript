@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+      <form name="form1">
+        <br>
+            <button  name="valider" id="valider" onclick="somme()">test</button><br><br>
+        </form>
+      <script type="text/javascript" language="javascript">
+      var a = 3;
+      var b = 2;
+
+          function somme()
+          {
+            var tab =[];
+            var somme=0;
+            alert("Entrer trois nombre");
+            for(var i=0;i<3;i++)
+            {
+              tab[i]=Number(prompt("Le nombre n°"+(i+1)));
+              somme+=tab[i];
+
+            }
+            alert("Le premier nombre : "+tab[0]+"\nLe second nombre : "+tab[1]+"\nLe troisième nombre : "+tab[2]+"\nLa somme des nombres : "+somme);
+          }
+      </script>
+    </body>
+</html>
