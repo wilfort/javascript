@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+      <form name="form1">
+        <br>
+            <button  name="valider" id="valider" onclick="conversionTemperature()">Conversion de Temperature</button><br><br>
+        </form>
+      <script type="text/javascript" language="javascript">
+
+        function conversionTemperature(){
+                  var resultat;
+                  var temperature;
+                  var typeT;
+                  do{
+                      typeT=Number.parseInt(prompt("Quel type de conversion il souhaite ?"
+                      +"\n\n0. Fin du programme"
+                      +"\n1. De Celsius vers Fahrenheit"
+                      +"\n2. De Celsius vers Kelvin"
+                      +"\n3. De Fahrenheit vers Celsius"
+                      +"\n4. De Fahrenheit vers Kelvin"
+                      +"\n5. De Kelvin vers Celsius"
+                      +"\n6. De Kelvin vers Fahrenheit"));
+
+
+                          switch(typeT) {
+
+                                case 0:
+                                    alert("Fin du programme");
+                                    break;
+                                case 1:
+                                    temperature=Number.parseFloat(prompt("Quelle est votre température à convertir ?"));
+                                    resultat=(temperature*9/5)+32;
+                                    alert("Votre température de "+temperature+"°C.\nConverti représente "+resultat+"°F.");
+                                    break;
+                                case 2:
+                                    temperature=Number.parseFloat(prompt("Quelle est votre température à convertir ?"));
+                                    resultat=temperature+273.15;
+                                    alert("Votre température de "+temperature+"°C.\nConverti représente "+resultat+"K.");
+                                    break;
+                                case 3:
+                                    temperature=Number.parseFloat(prompt("Quelle est votre température à convertir ?"));
+                                    resultat=(temperature-32)/(9/5);
+                                    alert("Votre température de "+temperature+"°F.\nConverti représente "+resultat+"°C.");
+                                    break;
+                                case 4:
+                                    temperature=Number.parseFloat(prompt("Quelle est votre température à convertir ?"));
+                                    resultat=((temperature-32)*(9/5))+273.15;
+                                    alert("Votre température de "+temperature+"°F.\nConverti représente "+resultat+"K.");
+                                    break;
+                                case 5:
+                                    temperature=Number.parseFloat(prompt("Quelle est votre température à convertir ?"));
+                                    resultat=temperature-273.15;
+                                    alert("Votre température de "+temperature+"K.\nConverti représente "+resultat+"°C.");
+                                    break;
+                                case 6:
+                                    temperature=Number.parseFloat(prompt("Quelle est votre température à convertir ?"));
+                                    resultat=(temperature*(9/5))-459.67;
+                                    alert("Votre température de "+temperature+"K.\nConverti représente "+resultat+"°F.");
+                                    break;
+                            }
+                  }while(typeT!=0)
+          }
+      </script>
+    </body>
+</html>

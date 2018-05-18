@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+      <form name="form1">
+        <br>
+            <button  name="valider" id="valider" onclick="calculMoyenne()">test</button><br><br>
+        </form>
+      <script type="text/javascript" language="javascript">
+      var a = 3;
+      var b = 2;
+
+          function calculMoyenne()
+          {
+            var tab =[];
+            var somme=0;
+            var compt=0;
+            var moyen=0;
+            var nb;
+            do
+            {
+              nb='';
+              while(!Number.isInteger(nb))
+              {
+                nb=Number.parseInt(prompt("Entrer un nombre"));
+                if (!Number.isInteger(nb)){alert("Vous avez entrer du text au lieu d'un nombre");}
+              }
+
+              if (nb>=0)
+              {
+                somme+=nb;
+                compt++;
+                console.log("le nombre n°"+(compt)+" est "+nb);
+
+              }
+              else {
+                alert("c'est un nombre négative");
+              }
+            }while(nb>=0)
+
+            if(compt!=0){
+              moyen=somme/compt;
+            }
+            else{
+              alert("pas de possibilité de faire la moyenne");
+            }
+
+
+            console.log("il y a "+compt+" nombres à faire la moyenne\n La moyenne est de "+moyen);
+          }
+      </script>
+    </body>
+</html>

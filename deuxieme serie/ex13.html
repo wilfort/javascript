@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+      <form name="form1">
+        <br>
+            <button  name="valider" id="valider" onclick="calculIMC()">calcul IMC</button><br><br>
+        </form>
+      <script type="text/javascript" language="javascript">
+
+        function calculIMC(){
+                  var poid;
+                  var tail;
+                  var imc;
+
+                      poid=Number.parseFloat(prompt("Quelle est votre poids ?"));
+                      tail=Number.parseFloat(prompt("Quelle est votre taille ?"));
+                      imc=poid/(tail*tail);
+                      imc=imc.toFixed(2)
+                      alert("Votre IMC est de "+imc);
+                          switch(true) {
+                                case imc<16:
+                                    alert("Votre est dans la catégorie de :\n dénutrition ou famine");
+                                    break;
+                                case imc>=16 && imc<18.5:
+                                    alert("Votre est dans la catégorie de :\n maigreur");
+                                    break;
+                                case imc>=18.5 && imc<25:
+                                    alert("Votre est dans la catégorie de :\n corpulence normale");
+                                    break;
+                                case imc>=25 && imc<30:
+                                    alert("Votre est dans la catégorie de :\n surpoids");
+                                    break;
+                                case imc>=30 && imc<35:
+                                    alert("Votre est dans la catégorie de :\n obésité modérée");
+                                    break;
+                                case imc>=35 && imc<40:
+                                    alert("Votre est dans la catégorie de :\n obésité sévère");
+                                    break;
+                                case imc>=40:
+                                    alert("Votre est dans la catégorie de :\n obésité morbide");
+                                    break;
+                            }
+          }
+      </script>
+    </body>
+</html>
