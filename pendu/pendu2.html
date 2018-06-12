@@ -1,0 +1,157 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <canvas id="dessin" width="400px" height="400px">
+
+        </canvas>
+
+        <form name="form1">
+            <label for="mot"></label>
+             <button  name="valider" id="valider" onclick="guessLetter()">pendu</button><br><br>
+        </form>
+        <script type="text/javascript">
+        var c = document.getElementById("dessin");
+        var ctx = c.getContext("2d");
+        // ici, le reste du script
+        ctx.beginPath();
+        ctx.fillStyle = "blue";
+        ctx.fillRect(0, 0, 400, 400);
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.fillStyle = "red";
+        //-1
+        ctx.fillRect(50, 50, 5, 300);
+        ctx.closePath();
+
+        ctx.beginPath();
+        //-2
+        ctx.fillRect(50, 50, 200, 5);
+        ctx.closePath();
+        
+        ctx.beginPath();
+        //-3
+        ctx.moveTo(50,100);
+        ctx.lineTo(100,50);
+        ctx.lineTo(107,50);
+        ctx.lineTo(50,107);
+        ctx.lineTo(50,100);
+        ctx.closePath();
+        ctx.fill();
+        ctx.beginPath();
+        
+        //-4
+        ctx.fillRect(250, 50, 6, 40);
+        ctx.closePath();
+        
+        ctx.beginPath();
+        //-5
+        ctx.strokeStyle ="red";
+        ctx.arc(253,119,30,0,Math.PI*2,false);
+        ctx.arc(253,119,29,0,Math.PI*2,false);
+        ctx.arc(253,119,28,0,Math.PI*2,false);
+        ctx.arc(253,119,27,0,Math.PI*2,false);  
+        ctx.arc(253,119,26,0,Math.PI*2,false);      
+        ctx.closePath();
+        ctx.stroke();
+        //-6
+        ctx.beginPath();
+        ctx.fillRect(250, 149, 6, 120);
+        ctx.closePath();
+        //-7
+        ctx.beginPath();
+        ctx.moveTo(256,170);
+        ctx.lineTo(306,120);
+        ctx.lineTo(312,126);
+        ctx.lineTo(256,178);
+        ctx.lineTo(250,178);
+        ctx.lineTo(194,126);
+        ctx.lineTo(200,120);
+        ctx.lineTo(250,170);
+        ctx.lineTo(256,170);
+        ctx.closePath();
+        ctx.fill();
+        //-8
+
+
+        </script>
+
+        <script type="text/javascript" language="javascript">
+            var mot = ['B','O','N','J','O','U','R'];
+            var devine=['_','_','_','_','_','_','_'];
+            var tosk=new Array;
+            var LM='';
+            var vie=8;
+            var conteur;
+            var conteur2=0;
+            var deja;
+            var test="",test2="";
+            console.log(devine);
+            
+
+            function guessLetter()
+            {
+                test=ConversionTableauChaine(mot);
+                console.log(devine);
+                do{
+                LM=prompt("Entrer un lettre");
+                LM=LM.toUpperCase();
+                deja='non';
+                
+                for (var c=0; c<tosk.length;c++)
+                    {
+                        if(LM==tosk[c])
+                            {
+                                deja='oui';
+                            }
+                    }
+
+                if(deja=='non')
+                    {
+                        conteur=0;
+                        for (var c2=0; c2<mot.length;c2++)
+                            {
+                                
+                                if(LM==mot[c2])
+                                    {
+                                        devine[c2]=""+LM;
+                                        conteur++;
+                                    }
+                            }
+                        if(conteur==0)
+                            {vie--;window.confirm("Il vous reste "+vie+".");
+                            }
+                        tosk[conteur2]=LM;
+                        conteur2++;
+                    }
+                else
+                    {
+                        window.confirm("Vous aviez deja entree cet lettre.");
+                    }
+
+                console.log(devine);
+                test2=ConversionTableauChaine(devine);
+                }while((test != test2)&&(vie!=0));
+                if(vie == 0)
+                {
+                    window.alert("Vous aviez perdue")
+                }
+                else
+                {
+                    window.alert("Vous aviez gagniee");
+                    window.confirm("Avec le mot "+devine);
+                }
+            }
+            var ConversionTableauChaine = function (langages) {
+                var tab="";
+                for (var c =0;c<langages.length;c++){
+    
+                    tab+=langages[c];
+                }
+                return tab;
+            }
+
+        </script>
+    </body>
+</html>

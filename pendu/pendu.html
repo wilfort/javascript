@@ -1,0 +1,86 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <form name="form1">
+             <button  name="valider" id="valider" onclick="guessLetter()">test</button><br><br>
+        </form>
+
+        <script type="text/javascript" language="javascript">
+            var mot = ['B','O','N','J','O','U','R'];
+            var devine=['_','_','_','_','_','_','_'];
+            var tosk=new Array;
+            var LM='';
+            var vie=10;
+            var conteur;
+            var conteur2=0;
+            var deja;
+            var test="",test2="";
+            console.log(devine);
+            
+
+            function guessLetter()
+            {
+                test=ConversionTableauChaine(mot);
+                console.log(devine);
+                do{
+                LM=prompt("Entrer un lettre");
+                LM=LM.toUpperCase();
+                deja='non';
+                
+                for (var c=0; c<tosk.length;c++)
+                    {
+                        if(LM==tosk[c])
+                            {
+                                deja='oui';
+                            }
+                    }
+
+                if(deja=='non')
+                    {
+                        conteur=0;
+                        for (var c2=0; c2<mot.length;c2++)
+                            {
+                                
+                                if(LM==mot[c2])
+                                    {
+                                        devine[c2]=""+LM;
+                                        conteur++;
+                                    }
+                            }
+                        if(conteur==0)
+                            {vie--;window.confirm("Il vous reste "+vie+".");
+                            }
+                        tosk[conteur2]=LM;
+                        conteur2++;
+                    }
+                else
+                    {
+                        window.confirm("Vous aviez deja entree cet lettre.");
+                    }
+
+                console.log(devine);
+                test2=ConversionTableauChaine(devine);
+                }while((test != test2)&&(vie!=0));
+                if(vie == 0)
+                {
+                    window.alert("Vous aviez perdue")
+                }
+                else
+                {
+                    window.alert("Vous aviez gagniee");
+                    window.confirm("Avec le mot "+devine);
+                }
+            }
+            var ConversionTableauChaine = function (langages) {
+                var tab="";
+                for (var c =0;c<langages.length;c++){
+    
+                    tab+=langages[c];
+                }
+                return tab;
+            }
+
+        </script>
+    </body>
+</html>
