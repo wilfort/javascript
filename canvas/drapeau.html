@@ -1,0 +1,126 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <canvas id="dessin" width="800px" height="300px">
+
+        </canvas>
+        <script type="text/javascript" language="javascript">
+
+            
+            var c = document.getElementById("dessin");
+            var ctx = c.getContext("2d");
+            
+            ctx.beginPath();
+            ctx.fillStyle = "cyan";
+            ctx.fillRect(0, 0, 800, 200);
+            ctx.closePath();
+            
+            ctx.fillStyle ="black";
+            ctx.lineWidth="1";
+            ctx.scale(1, 0.5);
+            ctx.beginPath();
+            ctx.arc(100,100,50,0,Math.PI,true);
+            ctx.lineTo(50,100);
+            ctx.moveTo(150,100);
+            ctx.lineTo(150,300);
+            ctx.arc(100,300,50,0,Math.PI,true);
+            ctx.lineTo(50,100);
+            //ctx.stroke();
+            ctx.closePath();
+            ctx.fill();
+            ctx.fillStyle ="blue";
+            ctx.beginPath();
+            ctx.moveTo(250.5,100);
+            ctx.arc(200.5,100,50,0,Math.PI,false);
+            
+            ctx.lineTo(150.5,100);
+            ctx.fillStyle ="yellow";
+            ctx.moveTo(250.5,100);
+            ctx.lineTo(250.5,300);
+            ctx.arc(200.5,300,50,0,Math.PI,false);
+            ctx.lineTo(150.5,100);
+            ctx.stroke();
+            ctx.fill();
+            ctx.closePath();
+            ctx.fillStyle ="cyan";
+            ctx.beginPath();
+            ctx.arc(200.5,100,50,0,Math.PI,false);
+            
+            ctx.lineTo(150.5,100);
+            ctx.stroke();
+            ctx.closePath();
+            ctx.fill();
+
+
+            ctx.fillStyle ="red";
+            
+            ctx.beginPath();
+            ctx.arc(301,100,50,0,Math.PI,true);
+            // ctx.lineTo(251,100);
+            ctx.moveTo(351,100);
+            ctx.lineTo(351,300);
+            ctx.arc(301,300,50,0,Math.PI,true);
+            ctx.lineTo(251,100);
+            ctx.stroke();
+            ctx.closePath();
+            ctx.fill();
+/*
+
+
+
+*/
+            ctx.fillStyle ="#0000ff";
+            //ctx.lineWidth="4";
+            
+            ctx.beginPath();
+            ctx.arc(500,100,50,0,Math.PI,true);
+            ctx.lineTo(450,100);
+            ctx.moveTo(550,100);
+            ctx.lineTo(550,300);
+            ctx.arc(500,300,50,0,Math.PI,true);
+            ctx.lineTo(450,100);
+            ctx.stroke();
+            ctx.closePath();
+            ctx.fill();
+
+            //ctx.fillStyle ="blue";
+            ctx.beginPath();
+            ctx.moveTo(650.5,100);
+            ctx.arc(600.5,100,50,0,Math.PI,false);
+            
+            ctx.lineTo(550.5,100);
+            
+            ctx.fillStyle ="white";
+            ctx.moveTo(650.5,100);
+            ctx.lineTo(650.5,300);
+            ctx.arc(600.5,300,50,0,Math.PI,false);
+            ctx.lineTo(550.5,100);
+            ctx.stroke();
+            ctx.fill();
+            ctx.closePath();
+            ctx.fillStyle ="cyan";
+            ctx.beginPath();
+            ctx.arc(600.5,100,50,0,Math.PI,false);
+            
+            
+            ctx.stroke();
+            ctx.closePath();
+            ctx.fill();
+
+
+            ctx.fillStyle ="red";
+            
+            ctx.beginPath();
+            ctx.arc(701,100,50,0,Math.PI,true);
+            ctx.lineTo(651,100);
+            ctx.moveTo(751,100);
+            ctx.lineTo(751,300);
+            ctx.arc(701,300,50,0,Math.PI,true);
+            ctx.lineTo(651,100);
+            ctx.stroke();
+            ctx.closePath();
+            ctx.fill();
+        </script>
+    </body>
+</html>

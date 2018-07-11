@@ -1,0 +1,123 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <canvas id="dessin" width="800px" height="800px">
+
+        </canvas>
+        <script type="text/javascript" language="javascript">
+
+            
+            var c = document.getElementById("dessin");
+            var ctx = c.getContext("2d");
+            var w = ctx.canvas.width;
+            var h = ctx.canvas.height;
+            
+            
+            
+            // canon();
+
+
+            function projectile(){}
+            function canon(){
+                this.size =30;
+                this.x = this.size / 2;
+                this.y = h - this.size / 2;
+                
+                this.move = function() {
+                    // Change angle to match mouse location
+                    
+
+                     if (this.right) {
+                         if(this.x<h-7.5){
+                        this.x++;}else{this.x=h-7.5;}
+                        this.right=false;
+                        }
+                    if (this.left) {
+
+                        if(this.x>7.5){
+                        this.x--;}else{this.x=7.5;}
+                        this.left=false;
+                        }
+
+
+                    // var diffY = mouse.y - this.y;
+                    // var a = -Math.atan2(diffY, diffX);
+                    // this.angle = a / Math.PI * 180;
+                };
+                
+
+                this.draw = function() {
+                    var x = this.x;
+                    var y = this.y;
+                    var s = this.size;
+                    ctx.save();
+                    ctx.translate(x, y);
+                    ctx.rotate(3*Math.PI / 2);
+                    ctx.fillStyle = "red";
+                    ctx.fillRect(-s * 0.4, -s * 0.4 / 2,s * 0.4, s * 0.4);
+                    ctx.fillRect(0, -s * 0.1, s * 0.5, s * 0.2);
+                    ctx.restore();
+                };
+
+                this.clearDessin = function(){
+                    ctx.clearRect(0, 0, w, h);
+                    ctx.beginPath();
+                    ctx.fillStyle = "cyan";
+                    ctx.fillRect(0, 0, w, h);
+                    ctx.closePath();
+                    }
+            
+
+            }
+
+            var mouse = {x: 15, y: 0};
+
+            ctx.canvas.onmousemove = 
+            function(evt) {
+                mouse.x = evt.clientX;
+                mouse.y = evt.clientY;
+            };
+            ctx.canvas.contentEditable = true;
+            ctx.canvas.onkeydown = function(evt) {
+            if (evt.keyCode == 39 || evt.keyCode == 68) {
+                // Up arrow or 'w' means jump
+                cannon.right = true;
+                // cannon.left = false;        
+                evt.preventDefault();
+            }
+            };
+            ctx.canvas.onkeyup = function(evt) {
+            if (evt.keyCode == 37 || evt.keyCode == 65) {
+                // Up arrow or 'w' means jump
+                cannon.left = true;
+                // cannon.right = false; 
+                 evt.preventDefault();
+            }
+            };
+
+            // Create the objects in the world
+            var cannon = new canon();
+
+            // Animation loop
+            var cmTID;
+            var timeStep = 50;  // milliseconds
+            function updateAll() {
+            // Move everything
+            cannon.move();
+            // Redraw everything
+            cannon.clearDessin();
+            cannon.draw();
+            
+            // Do everything again in a little bit
+            clearTimeout(cmTID);
+            cmTID = setTimeout(updateAll, timeStep);
+            }
+            updateAll();
+
+
+            function cible(){}
+            
+        </script>
+    </body>
+</html>

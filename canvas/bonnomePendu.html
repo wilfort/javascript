@@ -1,0 +1,95 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <canvas id="dessin" width="400px" height="500px">
+
+        </canvas>
+        <script type="text/javascript" language="javascript">
+
+            
+            var c = document.getElementById("dessin");
+            var ctx = c.getContext("2d");
+
+            ctx.beginPath();
+            ctx.fillStyle = "blue";
+            ctx.fillRect(0, 0, 400, 500);
+            ctx.closePath();
+
+            
+
+            
+                    ctx.beginPath();
+                    ctx.fillStyle = "red";
+                    
+                    ctx.fillRect(50, 50, 5, 400);
+                    ctx.fillRect(25, 450, 350, 10);
+                    ctx.closePath();
+                    
+                
+                    ctx.beginPath();
+                    
+                    ctx.fillRect(50, 50, 200, 5);
+                    ctx.closePath();
+                    
+                    ctx.beginPath();
+                    //-3
+                    ctx.moveTo(50,100);
+                    ctx.lineTo(100,50);
+                    ctx.lineTo(107,50);
+                    ctx.lineTo(50,107);
+                    ctx.lineTo(50,100);
+                    ctx.closePath();
+                    ctx.fill();
+                    
+                    ctx.beginPath();
+                    ctx.fillRect(250, 50, 6, 40);
+                    ctx.closePath();
+                   
+                    ctx.beginPath();
+                    ctx.strokeStyle ="red";
+                    ctx.arc(253,119,30,0,Math.PI*2,true);
+                    ctx.arc(253,119,29.5,0,Math.PI*2,false);
+                    ctx.arc(253,119,29,0,Math.PI*2,false);
+                    ctx.arc(253,119,28.5,0,Math.PI*2,false);
+                    ctx.arc(253,119,28,0,Math.PI*2,false);
+                    ctx.arc(253,119,27.5,0,Math.PI*2,false);
+                    ctx.arc(253,119,27,0,Math.PI*2,false);
+                    ctx.arc(253,119,26.5,0,Math.PI*2,false);  
+                    ctx.arc(253,119,26,0,Math.PI*2,false);      
+                    ctx.closePath();
+                    ctx.stroke();
+                
+                    ctx.beginPath();
+                    ctx.fillRect(250, 149, 6, 120);
+                    ctx.closePath();
+           
+                    ctx.beginPath();
+                    ctx.moveTo(256,170);
+                    ctx.lineTo(306,120);
+                    ctx.lineTo(312,126);
+                    ctx.lineTo(256,178);
+                    ctx.lineTo(250,178);
+                    ctx.lineTo(194,126);
+                    ctx.lineTo(200,120);
+                    ctx.lineTo(250,170);
+                    ctx.lineTo(256,170);
+                    ctx.closePath();
+                    ctx.fill();
+                
+                    ctx.beginPath();
+                    ctx.moveTo(256,268);
+                    ctx.lineTo(312,320);
+                    ctx.lineTo(306,326);
+                    ctx.lineTo(253,276);
+                    ctx.lineTo(200,326);
+                    ctx.lineTo(194,320);
+                    ctx.lineTo(250,268);
+                    ctx.lineTo(256,268);
+                    ctx.closePath();
+                    ctx.fill();
+                    
+
+        </script>
+    </body>
+</html>
