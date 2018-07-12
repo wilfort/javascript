@@ -2,7 +2,7 @@
     <head>
     </head>
     <body>
-        <canvas id="dessin" width="800px" height="800px">
+        <canvas id="dessin" width="400px" height="400px">
 
         </canvas>
         <script type="text/javascript" language="javascript">
@@ -12,15 +12,175 @@
             var ctx = c.getContext("2d");
             var w = ctx.canvas.width;
             var h = ctx.canvas.height;
+            function jeux()
+            {
+                
+
+                // Animation loop
+                this.timeStep = 50;  // milliseconds
+                this.frame = 1000 / this.timeStep;
+                this.bounce = 0.8;
+                this.gravity = 0.5;
+                this.init = function(){
+                    this.cannon = new canon();
+                    this.bullets = [];
+                    this.explosions = [];
+                };
+                this.update = function() {
+                    this.move();
+                    this.draw();
+                };
+                this.move = function() {
+                    this.cannon.move();
+                    for (var i = this.bullets.length - 1; i >= 0; i--) {
+                        var b = this.bullets[i];
+                        if (b.shouldDie()) {
+                            // The bullet has hit the ground or
+                            // exploded or otherwise needs to die.
+                            // Add an explosion
+                            var e = new Explosion(b);
+                            this.explosions.push(e);
+                            this.bullets.splice(i, 1);
+                        } else {
+                        b.move();
+                        }
+                    }
+                    for (i =this.explosions.length -1; i >= 0; i--) {
+                        var ex = this.explosions[i];
+                        if (ex.shouldDie()) {
+                            this.explosions.splice(i, 1);
+                        } else {
+                            ex.move();
+                        }
+                    }
+                };
+                this.draw = function() {
+                    this.cannon.clearDessin();
+                    this.cannon.draw();
+                    for (i = 0; i < this.bullets.length; i++) {
+                        this.bullets[i].draw();
+                    }
+                    for (i = 0; i < this.explosions.length; i++) {
+                        this.explosions[i].draw();
+                    }
+                };
+
+            }
+
+
+
+
+
+
+
+
             
-            
-            
+            function cible(){
+                this.move = function(){}
+                this.draw = function(){}
+            }
+            function particle(x, y, vx, vy){
+                this.x = x;
+                this.y = y;
+                this.vx = vx;
+                this.vy = vy;
+                this.life = 1 * game.frame;
+                this.life *= Math.random() * 2 + 1;
+                this.airResist = 0.97;
+
+                this.move = function(){
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    if (this.y > h) {
+                        var remain = (this.y - h) / this.vy;
+                        this.y = h;
+                        his.vy = -Math.abs(this.vy) * game.bounce;
+                        this.vx *= game.bounce;
+                        this.y += this.vy * remain;
+                    }
+                    this.vy += game.gravity;
+                    this.vx *= this.airResist;
+                    this.vy *= this.airResist;
+                    this.life -= 1;
+
+                }
+                this.draw = function(){
+                    ctx.fillRect(this.x, this.y, 1, 1);
+                }
+                this.shouldDie = function() {
+                    return this.life <= 0;
+                };
+            }
+            function explosion(source){
+                this.particles = [];
+
+                this.init = function(s){
+                    var num = s.size * 2;
+                    for (var i = 0; i < num; i++) {
+                        var vx = 2 * s.vx * (Math.random() - 0.2);
+                        vx += 3 * (Math.random() - 0.5);
+                        var vy = 2 * s.vy * (Math.random() - 0.2);
+                        vy += 3 * (Math.random() - 0.5);
+
+                        var p = new Particle(s.x, s.y, vx, vy);
+                        this.particles.push(p);
+                    }
+                    
+                }
+                this.init(source);
+                this.move = function(){
+                    var ps = this.particles;
+                    for (var i = ps.length - 1; i >= 0; i--) {
+                        var p = ps[i];
+                        if (p.shouldDie()) {
+                            ps.splice(i, 1);
+                        }
+                    }
+                    // Move all remaining particles
+                    for (i = 0; i < ps.length; i++) {
+                        ps[i].move();
+                    }
+                }
+                this.draw = function(){
+                    var ps = this.particles;
+                    // Draw all particles
+                    for (var i = 0; i < ps.length; i++) {
+                        ps[i].draw();
+                    }
+                }
+                this.shouldDie = function() {
+                    return this.particles.length <= 0;
+                };
+            }
             // canon();
 
 
-            function projectile(){}
+            function projectile(x, y, vy){
+                this.x = x;
+                this.y = y;
+                this.vy = vy;
+
+
+                this.move = function() {
+                    this.y+=this.vy;
+                };
+                this.draw = function() {
+                    var s = 5;
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.fillStyle= "green";
+                    ctx.fillRect(-s / 2, -s / 2, s, s);
+                    ctx.restore();
+                                };
+                this.shouldDie = function() {
+                    return this.y > h;
+                };
+            }
+            
             function canon(){
                 this.size =30;
+                this.reloadDelay = 0.5*game.frame;
+
                 this.x = this.size / 2;
                 this.y = h - this.size / 2;
                 
@@ -31,14 +191,25 @@
                      if (this.right) {
                          if(this.x<h-7.5){
                         this.x++;}else{this.x=h-7.5;}
-                        this.right=false;
+                        // this.right=false;
                         }
                     if (this.left) {
 
                         if(this.x>7.5){
                         this.x--;}else{this.x=7.5;}
-                        this.left=false;
+                        // this.left=false;
                         }
+                    if(this.espace){
+                        var X =this.x;
+                        var Y =this.y-15;
+                        var vy = 3;
+                        var bullet = new projectile(X, Y, -vy);
+                        game.bullets.push(bullet);
+                        this.reload = this.reloadDelay;
+                        this.espace=false
+                    }
+
+                    if (this.reload) { this.reload--; }
 
 
                     // var diffY = mouse.y - this.y;
@@ -71,6 +242,7 @@
 
             }
 
+            
             var mouse = {x: 15, y: 0};
 
             ctx.canvas.onmousemove = 
@@ -80,43 +252,95 @@
             };
             ctx.canvas.contentEditable = true;
             ctx.canvas.onkeydown = function(evt) {
+                // evt.keyCode == 32 barre espace
             if (evt.keyCode == 39 || evt.keyCode == 68) {
                 // Up arrow or 'w' means jump
-                cannon.right = true;
+                game.cannon.right = true;
                 // cannon.left = false;        
                 evt.preventDefault();
             }
-            };
-            ctx.canvas.onkeyup = function(evt) {
+            if ((evt.keyCode == 32)&& !this.reload ) {
+                // Up arrow or 'w' means jump
+                game.cannon.espace = true;
+                // cannon.left = false;        
+                evt.preventDefault();
+            }
             if (evt.keyCode == 37 || evt.keyCode == 65) {
                 // Up arrow or 'w' means jump
-                cannon.left = true;
+                game.cannon.left = true;
+                // cannon.right = false; 
+                 evt.preventDefault();
+            }
+            };
+            ctx.canvas.onkeyup = function(evt) {
+            if (evt.keyCode == 39 || evt.keyCode == 68) {
+                // Up arrow or 'w' means jump
+                game.cannon.right = false;
+                // cannon.left = false;        
+                evt.preventDefault();
+            }
+            if (evt.keyCode == 37 || evt.keyCode == 65) {
+                // Up arrow or 'w' means jump
+                game.cannon.left = false;
                 // cannon.right = false; 
                  evt.preventDefault();
             }
             };
 
             // Create the objects in the world
-            var cannon = new canon();
-
+            // var cannon = new canon();
+            // var bullets = [];
+            // var explosions = [];
+            var game = new jeux();
+            game.init();
             // Animation loop
             var cmTID;
-            var timeStep = 50;  // milliseconds
+            // var timeStep = 50;  // milliseconds
+            // var frame = 1000 / timeStep;
             function updateAll() {
+                game.update();
             // Move everything
-            cannon.move();
-            // Redraw everything
-            cannon.clearDessin();
-            cannon.draw();
+            // cannon.move();
+            // for (var i = bullets.length - 1; i >= 0; i--) {
+            //     var b = bullets[i];
+            //     if (b.shouldDie()) {
+            //         // The bullet has hit the ground or
+            //         // exploded or otherwise needs to die.
+            //         // Add an explosion
+            //         var e = new Explosion(b);
+            //         explosions.push(e);
+            //         bullets.splice(i, 1);
+            //     } else {
+            //     b.move();
+            //     }
+            // }
+            // for (i =explosions.length -1; i >= 0; i--) {
+            //     var ex = explosions[i];
+            //     if (ex.shouldDie()) {
+            //         this.explosions.splice(i, 1);
+            //     } else {
+            //         ex.move();
+            //     }
+            // }
+
             
+            // Redraw everything
+            // cannon.clearDessin();
+            // cannon.draw();
+            // for (i = 0; i < bullets.length; i++) {
+            //     bullets[i].draw();
+            // }
+            // for (i = 0; i < explosions.length; i++) {
+            //     explosions[i].draw();
+            // }
             // Do everything again in a little bit
             clearTimeout(cmTID);
-            cmTID = setTimeout(updateAll, timeStep);
+            cmTID = setTimeout(updateAll, game.timeStep);
             }
             updateAll();
 
 
-            function cible(){}
+            
             
         </script>
     </body>
