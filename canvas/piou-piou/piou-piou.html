@@ -1,35 +1,65 @@
 <html>
     <head>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
     </head>
     <body>
         <canvas id="dessin" width="400px" height="400px">
 
         </canvas>
-        <script type="text/javascript" language="javascript">
+        <button id="demare" onclick="lancher('#demare')">
+            Démare la partie.
+        </button>
+        <button id="redemare" onclick="lancher('#redemare')">
+                Relancér une partie.
+            </button>
 
+        <script type="text/javascript" language="javascript">
+            $('#redemare').css('display', 'none');
             
-            var c = document.getElementById("dessin");
-            var ctx = c.getContext("2d");
+            var canvas = document.getElementById("dessin");
+            var ctx = canvas.getContext("2d");
             var w = ctx.canvas.width;
             var h = ctx.canvas.height;
             function jeux()
             {
-                
-
                 // Animation loop
                 this.timeStep = 50;  // milliseconds
                 this.frame = 1000 / this.timeStep;
                 this.bounce = 0.8;
                 this.gravity = 0.5;
+                this.spawnChance = 0.6 / this.frame;
+                this.maxDifficulty = 10;
                 this.init = function(){
                     this.cannon = new canon();
                     this.bullets = [];
                     this.explosions = [];
+                    this.enemies = [];
+                    this.score=0;
+                    this.gameOver=false;
+                    this.gameFIN=false;
                 };
                 this.update = function() {
+                    this.spawn();
                     this.move();
-                    this.draw();
+                    this.collide();
+                    this.draw(); 
+                    
                 };
+                this.spawn = function() {
+                    // Spawn new enemies
+                    var chance = game.spawnChance;
+                    var difficulty = this.score / 1000 + 1;
+                    difficulty = Math.sqrt(difficulty);
+                    difficulty = Math.min(difficulty,
+                                        this.maxDifficulty);
+                    chance *= difficulty; 
+                    chance /= this.enemies.length + 1;
+                    if (Math.random() < chance) {
+                        this.enemies.push(new cible());
+                    }
+                };
+
                 this.move = function() {
                     this.cannon.move();
                     for (var i = this.bullets.length - 1; i >= 0; i--) {
@@ -42,7 +72,7 @@
                             this.explosions.push(e);
                             this.bullets.splice(i, 1);
                         } else {
-                        b.move();
+                            b.move();
                         }
                     }
                     for (i =this.explosions.length -1; i >= 0; i--) {
@@ -53,6 +83,63 @@
                             ex.move();
                         }
                     }
+                    for (i =this.enemies.length -1; i >= 0; i--) {
+                        var em = this.enemies[i];
+                        if (em.shouldDie()) {
+                            this.enemies.splice(i, 1);
+                        } else {
+                            em.move();
+                        }
+                    }
+                };
+                this.collide = function() {
+                    var e;
+                    var l = this.enemies.length;
+                    for (var i = 0; i < l; i++) {
+                        e = this.enemies[i];
+                        var l2 = this.bullets.length;
+                        for (var j = 0; j < l2; j++) {
+                            var b = this.bullets[j];
+                            if (e.dead || b.dead) { continue; }
+                            if (e.isOverlap(b)) {
+                            // An enemy and bullet have collided.
+                            // Mark both as dead
+                            e.dead = b.dead = true;
+                            // Add an explosion
+                            var obj = {x: (e.x + b.x) / 2,
+                                        y: (e.y + b.y) / 2,
+                                        vx: (e.vx + b.vx) / 2,
+                                        vy: (e.vy + b.vy) / 2,
+                                        size: e.size + b.size
+                                        };
+                            var ex = new explosion(obj);
+                            this.explosions.push(ex);
+                            this.score += 1;
+                            }
+                        }
+                    }
+                    l = this.enemies.length;
+                    for (i = l - 1; i >= 0; i--) {
+                        if (this.enemies[i].dead) {
+                            this.enemies.splice(i, 1);
+                        }
+                    }
+                    l = this.bullets.length;
+                    for (i = l - 1; i >= 0; i--) {
+                        if (this.bullets[i].dead) {
+                            this.bullets.splice(i, 1);
+                        }
+                    }
+                    l = this.enemies.length;
+                    for (i = 0; i < l; i++) {
+                        e = this.enemies[i];
+                        if (e.isOverlap(game.cannon)) {
+                            game.gameOver = true;
+                        }
+                    }
+                    if(
+                    this.score == 10){game.gameFIN=true;}      
+
                 };
                 this.draw = function() {
                     this.cannon.clearDessin();
@@ -63,21 +150,171 @@
                     for (i = 0; i < this.explosions.length; i++) {
                         this.explosions[i].draw();
                     }
+                    for (i = 0; i < this.enemies.length; i++) {
+                        this.enemies[i].draw();
+                    }
+                    if (this.score) {
+                        ctx.fillStyle = '#809000';
+                        ctx.fillText('Score: ' + this.score, 
+                                w * 0.8, 20);
+                    }
+
+                    if (this.gameOver) {
+                        ctx.save();
+                        ctx.font = '48pt sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.fillStyle = 'red';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText('GAME OVER', w / 2, h / 2);
+                        ctx.restore();
+                    }
+                    if (this.gameFIN) {
+                        ctx.save();
+                        ctx.font = '48pt sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.fillStyle = 'red';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText('WIN', w / 2, h / 2);
+                        ctx.restore();
+                    }
                 };
 
             }
 
-
-
-
-
-
-
-
-            
             function cible(){
-                this.move = function(){}
-                this.draw = function(){}
+                this.r = 35;
+                this.size = this.r * 2;
+                // Position
+                if (Math.random() < 0.5) {
+                    if (Math.random() < 0.5) {
+                        this.x = this.r;
+                    } else {
+                        this.x = w - this.r;
+                    }
+                    this.y = Math.random() * (h - this.size) + this.r;
+                    } else {
+                    this.x = Math.random() * (w - this.size) + this.r;
+                    if (Math.random() < 0.5) {
+                        this.y = this.r;
+                    } else {
+                        this.y = h - this.r-100;
+                    }
+                }
+
+                // Velocity
+                this.vx = -Math.random() * 3 - 1;
+                this.vy = (Math.random() - 0.5) * 20;
+                this.move = function() {
+                    
+
+                    // Adjust location by velocities
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    // var bottom = h - this.r-50; 
+                    if (this.x < this.r-5 ||
+                        this.x + this.r-5 > w) {
+                    this.vx = -this.vx;
+                    // this.da = -this.da;
+                    }
+                    if (this.y < this.r ||
+                        this.y + this.r > h-15) {
+                    this.vy = -this.vy;
+                    // this.da = -this.da;
+                    }
+                                    
+                    // if (this.y > bottom ) {
+                    //     var remain = (this.y - bottom) / this.vy;
+                    //     this.y = bottom;
+                    //     this.vy = -Math.abs(this.vy) *
+                    //     game.bounce;
+
+                    //     this.y += this.vy * remain;
+                    // }
+
+                    // this.vy += game.gravity;
+                };
+                
+                this.draw = function() {
+                    // Enemies are drawn as a little circle
+                    ctx.beginPath();
+                    // ctx.fillStyle="orange";
+                    // ctx.arc(this.x, this.y, this.r,
+                    //     0, Math.PI * 2);
+
+
+                        ctx.stroke();
+                        // ctx.fill();
+                        ctx.strokeStyle = "black";
+                        ctx.fillStyle = "#ACACAC";
+                        ctx.lineWidth="2";
+                        ctx.fillRect(this.x-25,this.y-20, 50, 40);
+
+                        ctx.strokeStyle = "black";
+                        ctx.fillStyle = "#ACACAC";
+                        ctx.lineWidth="2";
+                        ctx.fillRect(this.x-20, this.y-25, 40, 20);
+
+                        ctx.strokeStyle = "black";
+                        ctx.fillStyle = "#ACACAC";
+                        ctx.lineWidth="2";
+                        ctx.fillRect(this.x-30, this.y-15, 60, 30);
+
+                        ctx.strokeStyle = "black";
+                        ctx.fillStyle = "#ACACAC";
+                        ctx.lineWidth="2";
+                        ctx.fillRect(this.x-20, this.y-25, 40, 20);
+
+                        ctx.strokeStyle = "black";
+                        ctx.fillStyle = "#ACACAC";
+                        ctx.lineWidth="2";
+                        ctx.fillRect(this.x-15, this.y+15, 30, 10);
+
+                        ctx.strokeStyle = "black";
+                        ctx.fillStyle = "#ACACAC";
+                        ctx.lineWidth="2";
+                        ctx.fillRect(this.x-15, this.y+35, 30, 10);
+
+                        //teeth skull
+                        ctx.strokeStyle = "black";
+                        ctx.fillStyle = "#D4AF37";
+                        ctx.lineWidth="2";
+                        ctx.fillRect(this.x-12.5,this.y+30, 5, 5);
+
+                        ctx.strokeStyle = "black";
+                        ctx.fillStyle = "#BFB6B4";
+                        ctx.lineWidth="2";
+                        ctx.fillRect(this.x-2.5, this.y+30, 5, 5);
+
+                        ctx.strokeStyle = "black";
+                        ctx.fillStyle = "#BFB6B4";
+                        ctx.lineWidth="2";
+                        ctx.fillRect(this.x+7.5, this.y+30, 5, 5);
+
+                        //nose
+                        ctx.fillStyle = "black";
+                        ctx.fillRect (this.x-2.5, this.y+15, 5, 5);
+
+                        //eyes
+                        ctx.fillStyle = "black";
+                        ctx.fillRect (this.x-20, this.y-15, 15, 25);
+
+                        ctx.fillStyle = "black";
+                        ctx.fillRect (this.x+5, this.y-15, 15, 25);
+                };
+                
+                this.isOverlap = function(o2) {
+                    var o1 = this;
+                    var dx = o1.x - o2.x;
+                    var dy = o1.y - o2.y;
+                    var s = (o1.size + o2.size) / 2;
+                    var d = Math.sqrt(dx * dx + dy * dy);
+                    return (d <= s);
+                };
+                
+                this.shouldDie = function() {
+                    return this.x + this.r < 0;
+                };
             }
             function particle(x, y, vx, vy){
                 this.x = x;
@@ -94,7 +331,7 @@
                     if (this.y > h) {
                         var remain = (this.y - h) / this.vy;
                         this.y = h;
-                        his.vy = -Math.abs(this.vy) * game.bounce;
+                        this.vy = -Math.abs(this.vy) * game.bounce;
                         this.vx *= game.bounce;
                         this.y += this.vy * remain;
                     }
@@ -105,7 +342,8 @@
 
                 }
                 this.draw = function(){
-                    ctx.fillRect(this.x, this.y, 1, 1);
+                    ctx.fillStyle="yellow";
+                    ctx.fillRect(this.x, this.y, 3, 3);
                 }
                 this.shouldDie = function() {
                     return this.life <= 0;
@@ -122,7 +360,7 @@
                         var vy = 2 * s.vy * (Math.random() - 0.2);
                         vy += 3 * (Math.random() - 0.5);
 
-                        var p = new Particle(s.x, s.y, vx, vy);
+                        var p = new particle(s.x, s.y, vx, vy);
                         this.particles.push(p);
                     }
                     
@@ -153,23 +391,28 @@
                 };
             }
             // canon();
-
-
             function projectile(x, y, vy){
                 this.x = x;
                 this.y = y;
+                this.vx = 0;
                 this.vy = vy;
-
+                this.size = 10;
 
                 this.move = function() {
                     this.y+=this.vy;
                 };
                 this.draw = function() {
-                    var s = 5;
+                    var s = this.size;
                     ctx.save();
                     ctx.translate(this.x, this.y);
+
+
                     ctx.fillStyle= "green";
-                    ctx.fillRect(-s / 2, -s / 2, s, s);
+                    
+                        
+                    ctx.fillRect(-s / 4, -s / 2, s/2, s);
+                    ctx.fillRect(-s / 2, s / 4, s, s/2);
+                    
                     ctx.restore();
                                 };
                 this.shouldDie = function() {
@@ -241,17 +484,9 @@
             
 
             }
-
-            
-            var mouse = {x: 15, y: 0};
-
-            ctx.canvas.onmousemove = 
-            function(evt) {
-                mouse.x = evt.clientX;
-                mouse.y = evt.clientY;
-            };
+        
             ctx.canvas.contentEditable = true;
-            ctx.canvas.onkeydown = function(evt) {
+            window.onkeydown = function(evt) {
                 // evt.keyCode == 32 barre espace
             if (evt.keyCode == 39 || evt.keyCode == 68) {
                 // Up arrow or 'w' means jump
@@ -272,7 +507,7 @@
                  evt.preventDefault();
             }
             };
-            ctx.canvas.onkeyup = function(evt) {
+            window.onkeyup = function(evt) {
             if (evt.keyCode == 39 || evt.keyCode == 68) {
                 // Up arrow or 'w' means jump
                 game.cannon.right = false;
@@ -287,57 +522,31 @@
             }
             };
 
-            // Create the objects in the world
-            // var cannon = new canon();
-            // var bullets = [];
-            // var explosions = [];
-            var game = new jeux();
+            var game = new jeux();    
+            // game.init();
+            
+            function lancher(nom){
+                $(nom).css('display', 'none');
+                
             game.init();
-            // Animation loop
+            updateAll();
+
+}
             var cmTID;
-            // var timeStep = 50;  // milliseconds
-            // var frame = 1000 / timeStep;
+
             function updateAll() {
                 game.update();
-            // Move everything
-            // cannon.move();
-            // for (var i = bullets.length - 1; i >= 0; i--) {
-            //     var b = bullets[i];
-            //     if (b.shouldDie()) {
-            //         // The bullet has hit the ground or
-            //         // exploded or otherwise needs to die.
-            //         // Add an explosion
-            //         var e = new Explosion(b);
-            //         explosions.push(e);
-            //         bullets.splice(i, 1);
-            //     } else {
-            //     b.move();
-            //     }
-            // }
-            // for (i =explosions.length -1; i >= 0; i--) {
-            //     var ex = explosions[i];
-            //     if (ex.shouldDie()) {
-            //         this.explosions.splice(i, 1);
-            //     } else {
-            //         ex.move();
-            //     }
-            // }
 
-            
-            // Redraw everything
-            // cannon.clearDessin();
-            // cannon.draw();
-            // for (i = 0; i < bullets.length; i++) {
-            //     bullets[i].draw();
-            // }
-            // for (i = 0; i < explosions.length; i++) {
-            //     explosions[i].draw();
-            // }
-            // Do everything again in a little bit
             clearTimeout(cmTID);
-            cmTID = setTimeout(updateAll, game.timeStep);
+            if (!game.gameOver && !game.gameFIN) {
+                cmTID = setTimeout(updateAll,
+                    game.timeStep);
+            }else{
+                $('#redemare').css('display', 'block');
             }
-            updateAll();
+
+            }
+            // updateAll();
 
 
             

@@ -8,28 +8,27 @@
         <script type="text/javascript" language="javascript">
             var c = document.getElementById("dessin");
             var ctx = c.getContext("2d");
-            var posit = 8;
-            pixel(5*posit,1*posit,"black");
+            var posit = 1;
+            ctx.fillStyle="yellow";
+                ctx.beginPath();
+                ctx.fillRect(0, 0, 75*posit, 68*posit);
+                ctx.closePath();
+                var tabNoir=[[5,1],[4,2],[5,2],[6,2],[4,3],[6,3],[3,4],[4,4],[6,4],[7,4],[3,5],[7,5]];//black
+                for(var i=0 ; i < tabNoir.length ; i++)
+                {
+                    pixel(tabNoir[i][0]*posit,tabNoir[i][1]*posit,"black");
+                }
+                var tabBrunFoncer=[[5,3],[5,4],[6,5],[,]];//#78553C
+                for(var i=0 ; i < tabBrunFoncer.length ; i++)
+                {
+                    pixel(tabBrunFoncer[i][0]*posit,tabBrunFoncer[i][1]*posit,"#78553C");
+                }
+                var tabBrunclear=[[4,5],[5,5],[,],[,],[,]];//#AA886A
+                for(var i=0 ; i < tabBrunclear.length ; i++)
+                {
+                    pixel(tabBrunclear[i][0]*posit,tabBrunclear[i][1]*posit,"#AA886A");
+                }
 
-            pixel(4*posit,2*posit,"black");
-            pixel(5*posit,2*posit,"black");
-            pixel(6*posit,2*posit,"black");
-
-            pixel(4*posit,3*posit,"black");
-            pixel(5*posit,3*posit,"#78553C");
-            pixel(6*posit,3*posit,"black");
-
-            pixel(3*posit,4*posit,"black");
-            pixel(4*posit,4*posit,"black");
-            pixel(5*posit,4*posit,"#78553C");//brun foncé
-            pixel(6*posit,4*posit,"black");
-            pixel(7*posit,4*posit,"black");
-
-            pixel(3*posit,5*posit,"black");
-            pixel(4*posit,5*posit,"#AA886A");
-            pixel(5*posit,5*posit,"#AA886A");
-            pixel(6*posit,5*posit,"#78553C");
-            pixel(7*posit,5*posit,"black");
 
             pixel(3*posit,6*posit,"black");
             pixel(4*posit,6*posit,"#AA886A");
@@ -2773,8 +2772,10 @@
             function pixel(X,Y,couleur){
                 ctx.fillStyle=couleur;
                 ctx.beginPath();
+                // ctx.arc((X+(posit/2)),(Y+(posit/2)),(posit/2),0,Math.PI*2);
+                // ctx.fill();
                 ctx.fillRect(X, Y, posit, posit);
-                ctx.strokeRect(X, Y, posit, posit);
+                // ctx.strokeRect(X, Y, posit, posit);
                 ctx.closePath();
             }
         </script>

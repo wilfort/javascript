@@ -20,7 +20,7 @@
         
         
 
-          maison(400,300);
+          maison(500,300);
 
 
 
@@ -49,19 +49,19 @@
                             &&
                             (lon==((800/2)-(longeur/2))
                             ))
-                    {
-                        demiBrique(lon,hat);
-                        lon+=10;
-                        brique(lon,hat);
-                    }
-                    else if((count%2==1)
-                            &&
-                            (lon==((800/2)+(longeur/2)-10)
-                            ))
-                    {demiBrique(lon,hat);
-                        lon+=10;}
-                    else{
-                     brique(lon,hat);}
+                        {
+                                demiBrique(lon,hat);
+                                lon+=10;
+                                brique(lon,hat);
+                            }
+                            else if((count%2==1)
+                                    &&
+                                    (lon==((800/2)+(longeur/2)-10)
+                                    ))
+                            {demiBrique(lon,hat);
+                                lon+=10;}
+                            else{
+                            brique(lon,hat);}
                     }
                 count++;
             }
